@@ -2,7 +2,7 @@ DATA_teachers = {
   :teacher_keys =>
     ["firstname", "lastname", "email"],
   :teachers => [
-  ['None', 'None', 'none@music.com'],
+  ['Default', 'Teacher', 'none@music.com'],
   ['John', 'Coltrane', 'trane@music.com' ],
   ['Art', 'Tatum', 'artful@music.com'],
   ['Jimi', 'Hendrix', 'jimi@music.com'],
@@ -27,7 +27,7 @@ DATA_students = {
   :student_keys =>
     ["level", "teacher_id", "firstname", "lastname", "email"],
   :students => [
-    [1, 1, 'None', 'None', 'none@music.com'],
+    [1, 1, 'Default', 'Student', 'none@music.com'],
     [1, 6, 'James', 'Smith', 'jsmith@student.com'],
     [2, 5, 'Peter', 'Granger', 'pgranger@student.com'],
     [2, 3, 'Teddy', 'Mullet', 'tmullet@student.com'],
@@ -56,6 +56,7 @@ DATA_lessons = {
   :lesson_keys =>
     ["date", "notes", "teacher_id", "student_id"],
   :lessons => [
+    ['1970-01-01', 'default note', 1, 1],
     ['2017-10-01', 'discuss Beethoven', 3, 7],
     ['2017-10-08', 'review Bach pieces', 4, 8],
     ['2017-10-15', 'move to new book on technique', 5, 1],
@@ -111,6 +112,7 @@ DATA_resources = {
   :resource_keys =>
     ["title", "category", "description", "format", "location", "url"],
   :resources => [
+		["def", "def", "def", "def", "def", "def"],
     ["El Manisero", "Salsa", "salsa chart", "pdf", "cloud", "https://res.cloudinary.com/smithwebtek/image/upload/v1509296858/charts/El_Manisero.pdf"],
     ["Frenesi", "Salsa", "salsa chart", "pdf", "cloud","https://res.cloudinary.com/smithwebtek/image/upload/v1509296858/charts/Frenesi.pdf"],
     ["El Cuarto de Tula", "Salsa", "salsa chart", "pdf", "cloud","https://res.cloudinary.com/smithwebtek/image/upload/v1509296858/charts/El_Cuarto_de_Tula.pdf"],
@@ -194,12 +196,32 @@ def make_lesson_resources
   end
 end
  
+DATA_logs = {
+  :log_keys =>
+    ["teacher_id", "student_id", "resource_id", "lesson_id", "content"],
+  :logs => [
+    [1, 1, 1, 1, 'practice every day'],
+    [1, 1, 1, 1, 'enjoy performing']
+  ]
+}
+
+def make_logs
+  DATA_logs[:logs].each do |log|
+    new_log = Log.new
+    log.each_with_index do |attribute, i|
+      new_log.send(DATA_logs[:log_keys][i]+"=", attribute)
+    end
+    new_log.save
+  end
+end
+
 def main 
   make_teachers
   make_students
   make_lessons
   make_resources
-  make_lesson_resources
+	make_lesson_resources
+	make_logs
 end
 
 main

@@ -3,5 +3,6 @@ class TeacherSerializer < ActiveModel::Serializer
   has_many :students
   has_many :lessons
   has_many :lesson_resources, through: :lessons
-  has_many :resources, through: :lessons
+	has_many :resources, through: :lessons
+	has_many :logs
 end

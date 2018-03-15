@@ -7,7 +7,8 @@ Rails.application.routes.draw do
     resources :students
     resources :lessons
     resources :resources
-    resources :lesson_resources
+		resources :lesson_resources
+		resources :logs
   end
 
 
